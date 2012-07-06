@@ -1,5 +1,5 @@
 function LoadingMode(loadingFunctions,gs) {
-	halt = 0;
+	var halt = 0;
 	var frameCount = 0;
 
 	gs.ctx.textAlign="center";
@@ -11,8 +11,7 @@ function LoadingMode(loadingFunctions,gs) {
 	};
 
 	function loadScreen() {
-		if (!halt)
-		{
+		if (!halt) {
 			if (frameCount && frameCount<=loadingFunctions.length) {
 				gs.ctx.fillText(loadingFunctions[frameCount-1][1],gs.getWidth()/2,gs.getHeight()/2+20);
 				loadingFunctions[frameCount-1][0]();
@@ -37,3 +36,4 @@ function LoadingMode(loadingFunctions,gs) {
 	};
 }
 
+LoadingMode.waitFor = function() {};	// we want to avoid undefined calls to waitFor... just in case.

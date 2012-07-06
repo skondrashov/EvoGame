@@ -1,9 +1,9 @@
 function PlayMode(MAX_BG_ORGS,INITIAL_BG_ORGS,MAX_SCREEN_ORGS,gs)
 {
 	var ws;		// handle for websocket connections
-	var music;
-	var bgImg;
-	var SHOW_STATISTICS = false;
+	var music = gs.getSong('music.mp3');
+	var bgImg = gs.getImage('background.jpg');;
+	var SHOW_STATISTICS = true;
 	// ORGANISMS
 	var bgOrgs = new BgPopulation(MAX_BG_ORGS,INITIAL_BG_ORGS);
 	var actOrgs = new Array(MAX_SCREEN_ORGS);
@@ -20,22 +20,22 @@ function PlayMode(MAX_BG_ORGS,INITIAL_BG_ORGS,MAX_SCREEN_ORGS,gs)
 	if (SHOW_STATISTICS)
 	{
 		var TOTAL_TRAITS = 5;							// 0 == size, 1 == color, 2 == xspeed, 3 == yspeed, 4 == rotation
-		var fitness = new Array(TOTAL_TRAITS);
-		var traits = new Array(TOTAL_TRAITS);
+		//var fitness = new Array(TOTAL_TRAITS);
+		//var traits = new Array(TOTAL_TRAITS);
 		var traitValues = new Array(TOTAL_TRAITS);		// stores the number of possible integer values for every trait
-		var killed = new Array(TOTAL_TRAITS);			// marks how many organisms with a particular trait are killed between updates of the fitness graphs
-		var means = new Array(TOTAL_TRAITS); 			// stores the average value of each trait throughout the population
+		//var killed = new Array(TOTAL_TRAITS);			// marks how many organisms with a particular trait are killed between updates of the fitness graphs
+		//var means = new Array(TOTAL_TRAITS); 			// stores the average value of each trait throughout the population
 		for (var i=0; i<TOTAL_TRAITS; i++)
 		{
-			traits[i] = new Array();
-			means[i] = 0;
-			traitValues[i] = BgOrganism.MAX[i]-BgOrganism.MIN[i] + 1;
-			killed[i] = new Array(traitValues[i]);
-			fitness[i] = new Array(traitValues[i]);
+			//traits[i] = new Array();
+			//means[i] = 0;
+			traitValues[i] = 0|(BgOrganism.MAX[i]-BgOrganism.MIN[i] + 1);
+			//killed[i] = new Array(traitValues[i]);
+			//fitness[i] = new Array(traitValues[i]);
 			for (var j=0; j<traitValues[i]; j++)
 			{
-				killed[i][j] = 0;
-				fitness[i][j] = 0;
+		//		killed[i][j] = 0;
+		//		fitness[i][j] = 0;
 			}
 		}
 	}
@@ -43,11 +43,11 @@ function PlayMode(MAX_BG_ORGS,INITIAL_BG_ORGS,MAX_SCREEN_ORGS,gs)
 	this.init = function()
 	{
 	//	ws = new WebSocket('ws://172.17.35.102:1337');
-		bgImg = gs.getImage('background.jpg');
-		music = gs.getSong('music.mp3');
 		frameCount = 0;
 		gs.setScreen(playScreen);
 		showStats();
+		fpsCounter = new FpsCounter(frameCount);
+		fpsCounter.show(4);
 	//	music.play();
 	}
 
@@ -56,7 +56,7 @@ function PlayMode(MAX_BG_ORGS,INITIAL_BG_ORGS,MAX_SCREEN_ORGS,gs)
 		// INPUT
 		if (gs.mousePressed)						// if a player has clicked on an organism, kill it
 		{
-			var orgNum = gs.getCollision(gs.mousePressed[0],gs.mousePressed[1]);
+			var orgNum = gs.getCollision(gs.mousePosition[0],gs.mousePosition[1]);
 			if (orgNum !== null)
 			{
 				var o = actOrgs[orgNum];
@@ -73,7 +73,7 @@ function PlayMode(MAX_BG_ORGS,INITIAL_BG_ORGS,MAX_SCREEN_ORGS,gs)
 				{
 					o = bgOrgs.getOrg(o.getID());
 					for (var i=0; i<TOTAL_TRAITS; i++)
-						killed[i][0|((o.getTrait(i)-BgOrganism.MIN[i])+.5)]++;
+						;//killed[i][0|((o.getTrait(i)-BgOrganism.MIN[i])+.5)]++;
 				}
 			}
 		}
@@ -81,7 +81,7 @@ function PlayMode(MAX_BG_ORGS,INITIAL_BG_ORGS,MAX_SCREEN_ORGS,gs)
 
 		// PROCESS
 		bgImg.draw(0,0,false,0,gs.getHeight()/bgImg.height);
-		
+
 		for (var i=0; i<actOrgs.length; i++)
 		{
 			var o = actOrgs[i];
@@ -190,16 +190,17 @@ function PlayMode(MAX_BG_ORGS,INITIAL_BG_ORGS,MAX_SCREEN_ORGS,gs)
 			'size',
 			'color',
 			'x speed',
-			'y speed'];
-		var numRegions = 40;	// how many distinct regions each trait is considered to have
+			'y speed',
+			'rotation'];
+		var numRegions = 100;	// how many distinct regions each trait is considered to have
 
 		for (var i=0; i<TOTAL_TRAITS; i++)
 		{
 			// distribution - the frequency of every value of the current trait in the population (decimal values rounded down)
-			var distribution = new Array(traitValues[i]);
-			for (var j=0; j<traitValues[i]; j++)
+			var distribution = new Array(traitValues[i]*100);
+			for (var j=0; j<traitValues[i]*100; j++)
 				distribution[j] = 0;
-			means[i] = 0;	// the average value of the current trait in the population
+			//means[i] = 0;	// the average value of the current trait in the population
 
 			for (var j=0; j<MAX_BG_ORGS; j++)
 			{
@@ -207,62 +208,29 @@ function PlayMode(MAX_BG_ORGS,INITIAL_BG_ORGS,MAX_SCREEN_ORGS,gs)
 				if (o.isAlive())
 				{
 					var traitValue = o.getTrait(i);
-					means[i] += traitValue/MAX_BG_ORGS;			// Math.abs optional
-					distribution[0|(traitValue - BgOrganism.MIN[i] + .5)]++;
+					//means[i] += traitValue/MAX_BG_ORGS;			// Math.abs optional
+					distribution[0|(((traitValue - BgOrganism.MIN[i]) * 100)+.5)]++;
 				}
 			}
-			traits[i].push(means[i]);
-			for (var j=0; j<traitValues[i]; j++)
+			//traits[i].push(means[i]);
+			/*for (var j=0; j<traitValues[i]; j++)
 			{
 				if (distribution[j] || killed[i][j])
 					fitness[i][j] += distribution[j] / (distribution[j]+killed[i][j]);
 				else
 					fitness[i][j] += 0;	// this else statement should only trigger if we have 0 of a trait survived over 0 occurences of the trait in the population. 0/0 is undefined, but we'll let it be 0
 				killed[i][j] = 0;
-			}
+			}*/
 			var regions = new Array();
 			for (var j=1; j<numRegions; j++)
-				regions.push(0|(fitness[i].length/numRegions*j+.5));
-			drawGraph(fitness[i], document.getElementById('graph'+((2*(i+1))+7)).getContext("2d"), labels[i]+' fitness with ' + numRegions + ' regions', regions);
-			drawGraph(fitness[i], document.getElementById('graph'+((2*(i+1))+8)).getContext("2d"), labels[i]+' fitness w/o regions');
+				regions.push(0|(distribution.length/numRegions*j+.5));
+//			drawGraph(fitness[i], document.getElementById('graph'+((2*(i+1))+7)).getContext("2d"), labels[i]+' fitness with ' + numRegions + ' regions', regions);
+//			drawGraph(fitness[i], document.getElementById('graph'+((2*(i+1))+8)).getContext("2d"), labels[i]+' fitness w/o regions');
+			drawGraph(distribution, 'graph'+(((2*i+1))), labels[i]+' distribution', regions);
 			delete regions;
 			delete distribution;
-			drawGraph(traits[i],document.getElementById('graph'+(2*(i+1))).getContext("2d"),labels[i]);
+//			drawGraph(traits[i],document.getElementById('graph'+(2*(i+1))).getContext("2d"),labels[i]);
 		}		
 		// might need garbage collection here... but not really necessary since this function leaks memory no matter what. the final product won't have this function regardless
 	}
-
-	this.fpsCount = new function()
-	{
-		var interval = 0;
-		var prevFrameCount;
-		this.hide = function()
-		{
-			delete prevFrameCount;
-			interval = 0;
-			clearInterval(interval);
-			document.getElementById('framerate').innerHTML='';
-		};
-		this.show = function(perSecond)
-		{
-			delete prevFrameCount;
-			if (perSecond===0)
-				this.hide();
-			else
-			{
-				var index = 0;
-				var prevFrameCount = new Array(perSecond);
-				for (var k=0;k<perSecond;k++)
-					prevFrameCount[k] = 0;
-				interval = setInterval(function(){
-						document.getElementById('framerate').innerHTML='FPS: ' + (frameCount-prevFrameCount[index]);
-						prevFrameCount[index]=frameCount;
-						index++;
-						if (index == perSecond)
-							index = 0;
-					},1000/perSecond);
-			}
-		};
-	};
-	this.fpsCount.show(4);
 }

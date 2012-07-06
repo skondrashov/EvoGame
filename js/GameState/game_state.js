@@ -83,15 +83,14 @@ function GameState(width,height,FRAME_RATE)
 			function(e)
 			{
 				if (!gs.mouseDown)
-					gs.mousePressed = [(e.pageX-gs.ctx.canvas.parentNode.offsetLeft)*width/gs.ctx.canvas.width, (e.pageY-gs.ctx.canvas.parentNode.offsetTop)*height/gs.ctx.canvas.height];
+					gs.mousePressed = true;
 				else
-					gs.mouseDown = [e.pageX-gs.ctx.canvas.parentNode.offsetLeft, e.pageY-gs.ctx.canvas.parentNode.offsetTop];
+					gs.mouseDown = true;
 			}, false);
 
 		window.addEventListener('mouseup',
 			function(e)
 			{
-				delete gs.mouseDown;
 				gs.mouseDown = false;
 			}, false);
 
@@ -142,7 +141,6 @@ function GameState(width,height,FRAME_RATE)
 		currentScreen();
 		delete gs.keysPressed;
 		gs.keysPressed = [];
-		delete gs.mousePressed;
 		gs.mousePressed = false;
 		if (imgs.length)
 			draw();

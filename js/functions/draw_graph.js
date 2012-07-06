@@ -1,5 +1,5 @@
 // a - the array that contains the values to graph
-// c - the context of the canvas that the graph must be drawn on
+// c - the id of the canvas element that the graph is to be drawn on
 // regions is an array that allows the drawGraph function to reduce the resolution it displays at
 	// the length of the array 'a' is broken up into regions, and the average value of each region is graphed for every element in that region
 	// for example, if a == [0,1,2,3,4,5] , and regions == [2,5], then the function will graph as if a == [1,1,1,4,4,4]
@@ -10,6 +10,7 @@
 // label is a label that is drawn on the graph
 function drawGraph(a, c, label, regions)
 {
+	c = document.getElementById(c).getContext("2d");
 	var k;	// iterator variable for use throughout the function
 	a = a.slice(0);		// copy the received data into a new array to avoid changing the data
 	var LMARGIN, TMARGIN, RMARGIN, BMARGIN; // left top right bottom margins

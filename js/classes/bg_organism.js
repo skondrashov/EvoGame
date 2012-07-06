@@ -44,11 +44,11 @@ function BgOrganism(traits)
 		c.MIN[c.ROTATION] = 0;
 
 		c.CHANGE_RATE = new Array(c.NUM_TRAITS);
-		c.CHANGE_RATE[c.SIZE] = 5;
+		c.CHANGE_RATE[c.SIZE] = 5.5;
 		c.CHANGE_RATE[c.COLOR] = 20;
-		c.CHANGE_RATE[c.XSPEED] = 2.5;
-		c.CHANGE_RATE[c.YSPEED] = 2.5;
-		c.CHANGE_RATE[c.ROTATION] = .05;
+		c.CHANGE_RATE[c.XSPEED] = 3;
+		c.CHANGE_RATE[c.YSPEED] = 3;
+		c.CHANGE_RATE[c.ROTATION] = .08;
 
 		c.MUTATION_RATE = new Array(c.NUM_TRAITS);
 		c.MUTATION_RATE[c.SIZE] = 1/1;

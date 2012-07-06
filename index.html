@@ -2,12 +2,13 @@
 <html>
 	<head>
 		<title>Evolution Game</title>
-		<link rel="stylesheet" type="text/css" href="css/style.css"></link>
+		<link rel="stylesheet" type="text/css" href="style.css"></link>
 
 		<script type="text/javascript" src="js/functions/draw_graph.js"/></script>
 		<script type="text/javascript" src="js/functions/rgb.js"></script>											<!-- rgb() function to make colors easier to work with -->
 		<script type="text/javascript" src="js/functions/CanvasRenderingContext2D/fill_circle.js"></script>			<!-- gives the canvas context a function to draw a filled in circle, analogous to the existing fillRect function -->
 		<script type="text/javascript" src="js/functions/debug.js"></script>										<!-- allows us to print debug messages into a div with id="debug" -->
+		<script type="text/javascript" src="js/fps_counter.js"></script>	<!-- frame counter class -->
 
 		<!-- these files add destroy() methods to existing javascript objects, so that object.destroy() can be consistently used for all objects, whether user-defined or not -->
 		<!-- otherwise, native javascript objects would have to use the delete keyword and look inconsistent -->
@@ -17,8 +18,8 @@
 		<script type="text/javascript" src="js/classes/bg_population.js"></script>									<!-- container class for background organisms. contains functions to select an organism and reproduce -->
 		<script type="text/javascript" src="js/classes/bg_organism.js"></script>									<!-- organism class for organisms that exist off screen and reproduce between game phases -->
 		<script type="text/javascript" src="js/classes/active_organism.js"></script>								<!-- organism class for organisms on the screen, which interact with the player during game phases -->
-		
-		<script type="text/javascript" src="js/modes/play_mode.js"></script>								<!-- the mode that the game is actually played in -->
+
+		<script type="text/javascript" src="js/modes/play_mode.js"></script>										<!-- the mode that the game is actually played in -->
 		<script type="text/javascript" src="js/modes/loading_mode.js"></script>
 		<script type="text/javascript" src="js/modes/title_mode.js"></script>
 
@@ -27,7 +28,9 @@
 		<script type="text/javascript" src="js/GameState/resources.js"></script>
 		<script type="text/javascript" src="js/GameState/sprite.js"></script>
 		<script type="text/javascript" src="js/GameState/animation.js"></script>
+
 		<script type="text/javascript" src="js/sprite_info.js"></script>
+		<script type="text/javascript" src="layouts/titles.js"></script>
 
 		<script type="text/javascript" src="js/main.js"></script>
 	</head>
@@ -37,26 +40,32 @@
 		<div>
 			<canvas id="graph1" width="300" height="200"></canvas>
 			<canvas id="graph2" width="300" height="200"></canvas>
-			<canvas id="graph9" style="float:right;" width="300" height="200"></canvas>
-			<canvas id="graph10" style="float:right;" width="300" height="200"></canvas>
-		</div>
-		<div>
-			<canvas id="graph3" width="300" height="200"></canvas>
-			<canvas id="graph4" width="300" height="200"></canvas>
 			<canvas id="graph11" style="float:right;" width="300" height="200"></canvas>
 			<canvas id="graph12" style="float:right;" width="300" height="200"></canvas>
 		</div>
 		<div>
-			<canvas id="graph5" width="300" height="200"></canvas>
-			<canvas id="graph6" width="300" height="200"></canvas>
+			<canvas id="graph3" width="300" height="200"></canvas>
+			<canvas id="graph4" width="300" height="200"></canvas>
 			<canvas id="graph13" style="float:right;" width="300" height="200"></canvas>
 			<canvas id="graph14" style="float:right;" width="300" height="200"></canvas>
 		</div>
 		<div>
-			<canvas id="graph7" width="300" height="200"></canvas>
-			<canvas id="graph8" width="300" height="200"></canvas>
+			<canvas id="graph5" width="300" height="200"></canvas>
+			<canvas id="graph6" width="300" height="200"></canvas>
 			<canvas id="graph15" style="float:right;" width="300" height="200"></canvas>
 			<canvas id="graph16" style="float:right;" width="300" height="200"></canvas>
+		</div>
+		<div>
+			<canvas id="graph7" width="300" height="200"></canvas>
+			<canvas id="graph8" width="300" height="200"></canvas>
+			<canvas id="graph17" style="float:right;" width="300" height="200"></canvas>
+			<canvas id="graph18" style="float:right;" width="300" height="200"></canvas>
+		</div>
+		<div>
+			<canvas id="graph9" width="300" height="200"></canvas>
+			<canvas id="graph10" width="300" height="200"></canvas>
+			<canvas id="graph19" style="float:right;" width="300" height="200"></canvas>
+			<canvas id="graph20" style="float:right;" width="300" height="200"></canvas>
 		</div>
 		<div id="game_container"><noscript>You have javascript turned off, or your browser doesn't support javascript. You need javascript for this game to run. Sorry! :(</noscript></div>
 		<div id="framerate"></div>
