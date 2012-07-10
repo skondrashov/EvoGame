@@ -8,10 +8,11 @@
 				[
 					[function() {
 						gs.style.border="ridge";
+						gs.style.borderColor="#E0F080";
 						gs.style.cursor="crosshair";
 						gs.loadMode(new PlayMode(
-						50,		// The maximum size of the background population
-						50,		// The initial size of the background population
+						20,		// The maximum size of the background population
+						20,		// The initial size of the background population
 						10,		// The number of organisms placed on the screen during each level
 						gs),'play');
 						gs.loadMode(new TitleMode(gs),'title');

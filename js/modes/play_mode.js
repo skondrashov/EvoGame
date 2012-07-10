@@ -46,8 +46,7 @@ function PlayMode(MAX_BG_ORGS,INITIAL_BG_ORGS,MAX_SCREEN_ORGS,gs)
 		frameCount = 0;
 		gs.setScreen(playScreen);
 		showStats();
-		fpsCounter = new FpsCounter(frameCount);
-		fpsCounter.show(4);
+		fpsCounter = new FpsCounter(60);
 	//	music.play();
 	}
 
@@ -101,13 +100,14 @@ function PlayMode(MAX_BG_ORGS,INITIAL_BG_ORGS,MAX_SCREEN_ORGS,gs)
 
 		if (!(frameCount%60))
 			hunger+=1;
-		if (SHOW_STATISTICS)
+		if (SHOW_STATISTICS && !(frameCount%10))
 			showStats();
 		document.getElementById('score').innerHTML='';
 		writeScore('<br/>Hunger: ' + hunger);
 		writeScore('Score: ' + (frameCount + score));
 		if (hunger == 10)
 			gs.setScreen(loseScreen);
+		fpsCounter.show(frameCount);
 		frameCount++;
 	}
 

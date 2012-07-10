@@ -40,8 +40,8 @@ function BgOrganism(traits)
 		c.MIN[c.XSPEED] = -20;
 		c.MAX[c.YSPEED] = 20;				// YSPEED
 		c.MIN[c.YSPEED] = -20;
-		c.MAX[c.ROTATION] = 4 * Math.PI;	// ROTATION
-		c.MIN[c.ROTATION] = 0;
+		c.MAX[c.ROTATION] = 3 * Math.PI;	// ROTATION
+		c.MIN[c.ROTATION] = Math.PI;
 
 		c.CHANGE_RATE = new Array(c.NUM_TRAITS);
 		c.CHANGE_RATE[c.SIZE] = 5.5;

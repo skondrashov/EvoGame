@@ -44,7 +44,8 @@ function GameState(width,height,FRAME_RATE)
 	// user interaction
 	var collisionMap = [];
 	// drawing
-	var imgs = new Array();
+	var imgs = [];
+	var layout = [];
 
 	// *************FUNCTIONS*****************
 	// PUBLIC FUNCTIONS
@@ -144,6 +145,8 @@ function GameState(width,height,FRAME_RATE)
 		gs.mousePressed = false;
 		if (imgs.length)
 			draw();
+		//if (0|(Math.random()+.5))
+		//	gs.drawCollisionMap();
 	}
 
 	if (!window.requestAnimationFrame)
@@ -272,8 +275,111 @@ function GameState(width,height,FRAME_RATE)
 		gs.style.marginTop="-"+(gs.ctx.canvas.height/2)+"px";
 	};
 
-	gs.setCollision = function(x,y,n)
-	{
+	gs.setLayout = function(layoutObj) {
+		var obj;
+		gs.clearLayout();
+		for (button in layoutObj) {
+			obj = {};
+
+			obj.x = width/2 + layoutObj[button].x;
+			if (layoutObj[button].valign)
+				obj.y = height/2 + layoutObj[button].y;
+			else
+				obj.y = layoutObj[button].y;
+
+			if (layoutObj[button].img) {
+				obj.img = gs.getImage(layoutObj[button].img);
+				debug(layoutObj[button].img);
+				if (!layoutObj[button].halign)
+					obj.x -= obj.img.width/2;
+				obj.y -= obj.img.height/2;
+			}
+			if (layoutObj[button].txt) {
+				obj.size = layoutObj[button].size;
+				gs.ctx.font=obj.size+"px Arial";
+				obj.txt = layoutObj[button].txt;
+				if (!layoutObj[button].halign)
+					obj.x -= gs.ctx.measureText(obj.txt).width/2;
+				obj.y -= obj.size/2;
+				if (layoutObj[button].color)
+					obj.color = layoutObj[button].color;
+				else
+					obj.color = "#FFFFFF";
+				obj.textbox = layoutObj[button].textbox;
+			}
+
+			// some objects may not need any hitboxes. otherwise, do hitbox math
+			if (layoutObj[button].hitbox) {
+				obj.hitbox = {};
+				if (typeof(layoutObj[button].hitbox) === 'object') {
+					obj.hitbox = layoutObj[button].hitbox;
+				}
+				else {
+					obj.hitbox.x = obj.hitbox.w = obj.x;
+					obj.hitbox.y = obj.hitbox.h = obj.y;
+					obj.hitbox.value = layoutObj[button].hitbox;
+					if (obj.img) {
+						obj.hitbox.w += obj.img.width;
+						obj.hitbox.h += obj.img.height;
+					}
+					if (obj.txt) {
+						obj.hitbox.w += gs.ctx.measureText(obj.txt).width;
+						obj.hitbox.h += obj.size;
+					}
+				}
+			}
+			layout.push(obj);
+			delete obj;
+		}
+	};
+
+	gs.drawLayout = function() {
+		var measure, string;
+		for (k=0; k<layout.length; k++) {
+			if (layout[k].hitbox)
+				for (i=layout[k].hitbox.x; i<layout[k].hitbox.w; i++) {
+					for (j=layout[k].hitbox.y; j<layout[k].hitbox.h; j++) {
+						collisionMap[(0|j)*width+(0|i)]=layout[k].hitbox.value;
+					}
+				}
+			if (layout[k].img)
+				imgs.push([layout[k].img,layout[k].x,layout[k].y,false,0,1]);
+			if (layout[k].txt) {
+				gs.ctx.font=layout[k].size+"px Arial";
+				gs.ctx.textAlign="start";
+				gs.ctx.textBaseline="top";
+				gs.ctx.fillStyle=layout[k].color;
+				if (layout[k].textbox) {
+					i=0;
+					string=layout[k].txt;
+					while (string) {
+						measure=string;
+						if (gs.ctx.measureText(measure).width>layout[k].textbox) {
+							while (gs.ctx.measureText(measure).width>layout[k].textbox)
+								measure=measure.slice(0,-1);
+							if (measure.search(' ')>-1)
+								while (measure[measure.length-1]!=' ')
+									measure=measure.slice(0,-1);
+						}
+						string=string.slice(measure.length);
+						gs.ctx.fillText(measure,layout[k].x,layout[k].y+i);
+						i+=layout[k].size;
+					}
+				}
+				else
+					gs.ctx.fillText(layout[k].txt,layout[k].x,layout[k].y);
+			}
+		}
+	};
+	
+	gs.clearLayout = function() {
+		for (i=0;i<layout.length;i++)
+			delete layout[i].hitbox;
+		delete layout;
+		layout = [];
+	};
+
+	gs.setCollision = function(x,y,n) {
 		if (x >= 0 && y >= 0 && x < width && y < height)
 			collisionMap[(0|y)*width+(0|x)]= n;
 	};
@@ -286,15 +392,13 @@ function GameState(width,height,FRAME_RATE)
 			return null;
 	};
 	
-	gs.clearCollisionMap = function()
-	{
+	gs.clearCollisionMap = function() {
 		for (i=0; i<width; i++)
 			for (j=0; j<=height; j++)
 				collisionMap[j*width+i] = null;
 	};
 
-	gs.destroy = function()
-	{
+	gs.destroy = function() {
 		for (i=0;i<imgs.length;i++)
 			delete imgs[i];
 		delete imgs;
@@ -306,4 +410,18 @@ function GameState(width,height,FRAME_RATE)
 		delete oldTime;
 		delete gs;
 	};
+	
+	gs.drawCollisionMap = function() {
+		var id = gs.ctx.createImageData(width,height);
+		for (i=0; i<width*height*4; i+=4) {
+			if (collisionMap[i/4]!==null) {
+				id.data[i+0] = 0;
+				id.data[i+1] = 255;
+				id.data[i+2] = 255;
+				id.data[i+3] = 255;
+			}
+		}
+		gs.ctx.putImageData(id,0,0);
+	};
 }
+GameState.layouts = {};
