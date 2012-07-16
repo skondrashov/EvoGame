@@ -1,18 +1,16 @@
-function BgPopulation(MAX_ORGS,INIT_ORGS)
+function BgPopulation(MAX_ORGS)
 {
 	var i,j; // iterator variables for use throughout the object
 	var orgs = new Array(MAX_ORGS);
 
 	for (i=0; i<MAX_ORGS; i++)
 		orgs[i] = new BgOrganism();
-	for (i=INIT_ORGS; i<MAX_ORGS; i++)		// makes sure that only INITIAL_ORGS background organisms are alive at the beginning of the game
-		orgs[i].kill();
 
 	var aliveArray = new Array(MAX_ORGS);		// this array serves to define the background organisms that are alive at the beginning of each reproduction phase.
 													// with this we can avoid operations on organisms that are born during the frame
 
 	var flaggedCount = 0;						// stores the number of unflagged organisms
-	var aliveCount = INIT_ORGS;					// stores the number of alive organisms
+	var aliveCount = MAX_ORGS;					// stores the number of alive organisms
 
 	// FUNCTIONS
 

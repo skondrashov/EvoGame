@@ -1,7 +1,7 @@
 function FpsCounter(precision)
 {
 	var counts = new Array(precision);
-	var time, oldTime = new Date();
+	var time = new Date(), oldTime = new Date();
 	var index = 0;
 	var elapsed;
 	this.show = function()
