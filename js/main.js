@@ -26,6 +26,12 @@
 			//this line contains the error message for HTML5 incompatibility, and also removes the tag from the main page which contains the javascript incompatibility error.
 			container.innerHTML='It looks like your browser doesn\'t support HTML5. Please upgrade to a modern browser, such as the latest versions of <a href="https://www.google.com/chrome">Google Chrome</a> or <a href="http://www.mozilla.org/en-US/firefox/new/">Mozilla Firefox</a>.';
 		}
+		for (var k=0; k<5; k++) {
+			document.getElementById('graph'+k).width="310";
+			document.getElementById('graph'+k).height="300";
+			//document.getElementById('graph'+k).style.width="100";
+			//document.getElementById('graph'+k).style.height="210";
+		}
 	}
 /*} catch (e)
 {

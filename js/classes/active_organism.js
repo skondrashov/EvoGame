@@ -108,7 +108,7 @@ function ActiveOrganism(gs, size, color, xSpeed, ySpeed, rotation, x, y, id)
 		return xSpeed;
 	};
 
-	this.getXSpeed = function()
+	this.getYSpeed = function()
 	{
 		return ySpeed;
 	};
