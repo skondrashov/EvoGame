@@ -1,4 +1,5 @@
 function BgOrganism(traits) {
+	"use strict";
 	var c = BgOrganism; // storing the class in a variable helps us to simplify any code involving static variables
 						// anything preceded by 'c.' is a static variable that belongs to the class instead of to objects of the class
 	var alive = true;
@@ -111,11 +112,5 @@ function BgOrganism(traits) {
 
 	this.kill = function() {
 		alive = false;
-	};
-
-	// DESTRUCTOR
-	this.destroy = function() {
-		delete traits;
-		delete this;
 	};
 }

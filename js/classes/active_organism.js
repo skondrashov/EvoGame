@@ -1,4 +1,5 @@
 function ActiveOrganism(gs, size, xSpeed, ySpeed, rotation, x, y, id) {
+	"use strict";
 	var i,j; // iterator variables for use throughout the object
 	var age = 0;
 	var dead = false;
@@ -87,18 +88,5 @@ function ActiveOrganism(gs, size, xSpeed, ySpeed, rotation, x, y, id) {
 
 	this.getAge = function() {
 		return age;
-	};
-
-	this.destroy = function() {
-		c.count--;
-		if (c.count === 0)
-		{
-			c.deathSound.destroy();
-			c.sprite.destroy();
-			for (i=1; i<c.roots.length; i++)
-				delete c.roots[i];
-			delete c.roots;
-		}
-		delete this;
 	};
 }

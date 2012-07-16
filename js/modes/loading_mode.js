@@ -1,4 +1,5 @@
 function LoadingMode(loadingFunctions,gs) {
+	"use strict";
 	var halt = 0;
 	var frameCount = 0;
 

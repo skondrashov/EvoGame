@@ -8,8 +8,8 @@
 	// it is also important to note that if the last element of 'regions' is not the length of a, then the remaining elements of a will be considered as a single region
 	// eg if a == [0,1,2,3,4,5], then regions == [2,5] will draw an identical graph to regions == [2]
 // label is a label that is drawn on the graph
-function drawGraph(a, c, label, regions)
-{
+function drawGraph(a, c, label, regions) {
+	"use strict";
 	c = document.getElementById(c).getContext("2d");
 	var k;	// iterator variable for use throughout the function
 	a = a.slice(0);		// copy the received data into a new array to avoid changing the data
@@ -33,7 +33,7 @@ function drawGraph(a, c, label, regions)
 	var ARRAY_WIDTH = a.length;
 	if (regions)
 	{
-		function processRegion(regBegin, regEnd)
+		var processRegion = function(regBegin, regEnd)
 		{
 			var regLength = 0;
 			var regTotal = 0;
@@ -45,7 +45,7 @@ function drawGraph(a, c, label, regions)
 			var regAvg = regTotal/regLength;
 			for (k=regBegin; k<regEnd; k++)
 				a[k] = regAvg;
-		}
+		};
 		processRegion(0,regions[0]);
 		for (k=1; k<regions.length; k++)
 			processRegion(regions[k-1],regions[k]);

@@ -1,5 +1,5 @@
-GameState.layouts.titleMode = {
-	"titleMenu":{
+GameState.layouts.title = {
+	"menu":{
 		"title_text":{
 			txt:"Super EvoDoctor Deluxe",
 			size:50,
@@ -41,7 +41,7 @@ GameState.layouts.titleMode = {
 			hitbox:"about"
 		}
 	},
-	"titleOptions":{
+	"options":{
 		"fullscreen_button":{
 			txt:"Fullscreen",
 			size:35,
@@ -67,7 +67,7 @@ GameState.layouts.titleMode = {
 			hitbox:"back"
 		}
 	},
-	"titleHelp":{
+	"help":{
 		"help_text":{
 			txt:"In this game, you play the role of a doctor who has been assigned to control an outbreak of a deadly disease. When you kill bacteria inside of your patient, they will evolve and adapt to the way that you're killing them. You have antibiotics at your disposal, but you must be careful to use antibiotics responsibly! If you overuse your antibiotics, the bacteria will grow resistant to them, and you risk triggering a global pandemic that will wipe out the world!",
 			halign:"left",
@@ -85,7 +85,7 @@ GameState.layouts.titleMode = {
 			hitbox:"back"
 		}
 	},
-	"titleAbout":{
+	"about":{
 		"about_text":{
 			txt:"This game is the brainchild of Fedor Kondrashov, who is a laboratory leader at the Center for Genomics Research in Barcelona, Spain. It is an educational tool for demonstrating the processes of selection and evolution in a real system.",
 			halign:"left",
@@ -103,4 +103,4 @@ GameState.layouts.titleMode = {
 			hitbox:"back"
 		}
 	}
-}
+};

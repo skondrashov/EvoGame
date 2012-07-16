@@ -1,5 +1,5 @@
-function BgPopulation(MAX_ORGS)
-{
+function BgPopulation(MAX_ORGS) {
+	"use strict";
 	var i,j; // iterator variables for use throughout the object
 	var orgs = new Array(MAX_ORGS);
 
@@ -19,16 +19,12 @@ function BgPopulation(MAX_ORGS)
 	// first, we generate an integer, orgNum, between 0 and the number of organisms that are alive and unflagged
 	// then, we look for living and unflagged organisms until we find orgNum of them.
 	// we flag and return the location of the orgNumth organism
-	this.select = function()
-	{
+	this.select = function() {
 		var orgNum = 0|(Math.random()*(aliveCount-flaggedCount));
 		var numFound = 0;
-		for (i=0; i<MAX_ORGS; i++)
-		{
-			if (orgs[i].isAlive() && !orgs[i].getFlag())
-			{
-				if (numFound == orgNum)
-				{
+		for (i=0; i<MAX_ORGS; i++) {
+			if (orgs[i].isAlive() && !orgs[i].getFlag()) {
+				if (numFound == orgNum) {
 					orgs[i].setFlag(true);
 					flaggedCount++;
 					return i;
@@ -39,16 +35,13 @@ function BgPopulation(MAX_ORGS)
 		return false;
 	};
 
-	this.reproduce = function()
-	{
+	this.reproduce = function() {
 		var failed = false;		// we need to use a trigger to break the loop instead of a 'break' statement to ensure that the parents' flags are properly off
 		var momID, mom, dadID, dad;
 		var traitNum, traits;
-		while (aliveCount<MAX_ORGS && !failed)
-		{
+		while (aliveCount<MAX_ORGS && !failed) {
 			momID = this.select();
-			if (momID !== false)
-			{
+			if (momID !== false) {
 				mom = orgs[momID];
 				dadID = this.select();
 				if (dadID !== false)
@@ -59,26 +52,21 @@ function BgPopulation(MAX_ORGS)
 
 					traitNum = 5;
 					traits = new Array();
-					for (i=0; i<traitNum; i++)
-					{
+					for (i=0; i<traitNum; i++) {
 						if (0|(Math.random()*2))
 							traits.push(mom.getTrait(i));
 						else
 							traits.push(dad.getTrait(i));
 					}
 
-					for (i=0; i<MAX_ORGS; i++)
-					{
-						if (!orgs[i].isAlive())
-						{
-							orgs[i].destroy();
+					for (i=0; i<MAX_ORGS; i++) {
+						if (!orgs[i].isAlive()) {
 							orgs[i] = new BgOrganism(traits);
 							orgs[i].mutate();
 							aliveCount++;
 							break;
 						}
 					}
-					delete traits;
 				} else		// if we cannot field a dad, we have to abort reproduction altogether
 					failed = true;
 				mom.setFlag(false);		// we deflag after attempting to find a dad in order to avoid the possibility that the mom and the dad are the same organism
@@ -88,31 +76,18 @@ function BgPopulation(MAX_ORGS)
 		}
 	};
 
-	this.returnOrg = function(o)
-	{
-		if (o.isAlive())
-		{
+	this.returnOrg = function(o) {
+		if (o.isAlive()) {
 			orgs[o.getID()].setFlag(false);
 		}
-		else
-		{
+		else {
 			orgs[o.getID()].kill();
 			aliveCount--;
 		}
 		flaggedCount--;
 	};
 
-	this.getOrg = function(n)
-	{
+	this.getOrg = function(n) {
 		return orgs[n];
-	};
-
-	this.destroy = function()
-	{
-		for (i=0; i<MAX_ORGS; i++)
-			orgs[i].destroy();
-		orgs.destroy();
-		aliveArray.destroy();
-		delete this;
 	};
 }

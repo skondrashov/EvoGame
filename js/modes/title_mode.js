@@ -1,23 +1,18 @@
-function TitleMode(gs)
-{
+function TitleMode(gs) {
+	"use strict";
 	var menuSound = gs.getSound('menu.wav');
 	var music = gs.getSong('title.ogg');
-	var button = function() {
-		
-	};
 
-	this.init = function()
-	{
+	this.init = function() {
 		gs.unloadMode('load');
-		gs.setLayout(GameState.layouts.titleMode.titleMenu);
+		gs.setLayout('menu');
 		gs.setScreen(mainScreen);
 	//	music.play();
 	};
 
-	function mainScreen()
-	{
+	function mainScreen() {
 		if (gs.mousePressed) {
-			switch (gs.getCollision(gs.mousePosition[0],gs.mousePosition[1])) {
+			switch (gs.getCollision(gs.mousePosition[0], gs.mousePosition[1])) {
 			case 'play':
 				menuSound.stop();
 				menuSound.play();
@@ -34,19 +29,19 @@ function TitleMode(gs)
 			case 'options':
 				menuSound.stop();
 				menuSound.play();
-				gs.setLayout(GameState.layouts.titleMode.titleOptions);
+				gs.setLayout('options');
 				gs.setScreen(optionsScreen);
 				break;
 			case 'help':
 				menuSound.stop();
 				menuSound.play();
-				gs.setLayout(GameState.layouts.titleMode.titleHelp);
+				gs.setLayout('help');
 				gs.setScreen(aboutScreen);
 				break;
 			case 'about':
 				menuSound.stop();
 				menuSound.play();
-				gs.setLayout(GameState.layouts.titleMode.titleAbout);
+				gs.setLayout('about');
 				gs.setScreen(aboutScreen);
 				break;
 			}
@@ -69,12 +64,13 @@ function TitleMode(gs)
 				menuSound.stop();
 				menuSound.play();
 				gs.style.border='ridge';
+				gs.style.borderColor="#E0F080";
 				gs.setResolution(gs.getWidth(),gs.getHeight());
 				break;
 			case 'back':
 				menuSound.stop();
 				menuSound.play();
-				gs.setLayout(GameState.layouts.titleMode.titleMenu);
+				gs.setLayout('menu');
 				gs.setScreen(mainScreen);
 				break;
 			}
@@ -90,7 +86,7 @@ function TitleMode(gs)
 			case 'back':
 				menuSound.stop();
 				menuSound.play();
-				gs.setLayout(GameState.layouts.titleMode.titleMenu);
+				gs.setLayout('menu');
 				gs.setScreen(mainScreen);
 				break;
 			}
@@ -106,7 +102,7 @@ function TitleMode(gs)
 			case 'back':
 				menuSound.stop();
 				menuSound.play();
-				gs.setLayout(GameState.layouts.titleMode.titleMenu);
+				gs.setLayout('menu');
 				gs.setScreen(mainScreen);
 				break;
 			}

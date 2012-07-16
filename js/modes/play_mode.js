@@ -1,4 +1,5 @@
 function PlayMode(MAX_BG_ORGS,MAX_SCREEN_ORGS,gs) {
+	"use strict";
 	var MAX_SCREEN_TIME = 60 * 6;		// number of frames that each organism stays on screen before going back into the background population
 	var MAX_HEALTH = 100;
 	var SCORE_PER_KILL = 100;
@@ -14,6 +15,7 @@ function PlayMode(MAX_BG_ORGS,MAX_SCREEN_ORGS,gs) {
 		loadNewOrganism(i);
 
 	var frameCount = 0;									// the number of frames elapsed since playScreen began. only incremented in playScreen (in other screens, the game is considered paused)
+	var fpsCounter;
 
 	// SCORING
 	var health = MAX_HEALTH;
@@ -145,8 +147,6 @@ function PlayMode(MAX_BG_ORGS,MAX_SCREEN_ORGS,gs) {
 	}
 
 	function loadNewOrganism(n) {
-		if (actOrgs[n])
-			actOrgs[n].destroy();
 		var id = bgOrgs.select();
 		if (id !== false) {
 			var o = bgOrgs.getOrg(id);
@@ -157,15 +157,6 @@ function PlayMode(MAX_BG_ORGS,MAX_SCREEN_ORGS,gs) {
 			actOrgs[n].kill();
 		}
 	}
-
-	this.destroy = function() {
-		for (var i=0; i<MAX_SCREEN_ORGS; i++)
-			actOrgs.destroy();
-		for (var i=0; i<MAX_BG_ORGS; i++)
-			bgOrgs.destroy();
-		music.destroy();
-		delete this;
-	};
 
 	function writeScore(s) {
 		var p = document.createElement('div');
@@ -210,8 +201,7 @@ function PlayMode(MAX_BG_ORGS,MAX_SCREEN_ORGS,gs) {
 //			drawGraph(fitness[i], document.getElementById('graph'+((2*(i+1))+7)).getContext("2d"), labels[i]+' fitness with ' + numRegions + ' regions', regions);
 //			drawGraph(fitness[i], document.getElementById('graph'+((2*(i+1))+8)).getContext("2d"), labels[i]+' fitness w/o regions');
 			drawGraph(distribution, 'graph'+(((2*i+1))), labels[i]+' distribution', regions);
-			delete regions;
-			delete distribution;
+
 //			drawGraph(traits[i],document.getElementById('graph'+(2*(i+1))).getContext("2d"),labels[i]);
 		}		
 		// might need garbage collection here... but not really necessary since this function leaks memory no matter what. the final product won't have this function regardless
