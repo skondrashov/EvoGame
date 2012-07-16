@@ -1,0 +1,1 @@
+This game is the brainchild of Fedor Kondrashov, who is a laboratory leader at the Center for Genomics Research in Barcelona, Spain. It is an educational tool for demonstrating the processes of selection and evolution in a real system.
