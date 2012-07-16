@@ -1,11 +1,11 @@
 function FpsCounter(precision)
 {
 	var counts = new Array(precision);
-	var time = new Date(), oldTime = new Date();
+	var time, oldTime = new Date();
 	var index = 0;
 	var elapsed;
-	this.count = function()
-	{/*
+	this.show = function()
+	{
 		elapsed=0;
 		oldTime = time;
 		delete time;
@@ -17,6 +17,6 @@ function FpsCounter(precision)
 		document.getElementById('framerate').innerHTML='FPS: ' + ((0|(10000*precision/elapsed+.5))/10);
 		index++;
 		if (index == precision)
-			index = 0;*/
+			index = 0;
 	};
 }

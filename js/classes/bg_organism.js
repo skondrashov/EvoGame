@@ -1,5 +1,8 @@
 function BgOrganism(traits)
 {
+	if (typeof(traits) === 'undefined')
+		traits = [25, 127.5, 0, 0, 2*Math.PI];
+
 	var c = BgOrganism; // storing the class in a variable helps us to simplify any code involving static variables
 						// anything preceded by 'c.' is a static variable that belongs to the class instead of to objects of the class
 	var alive = true;
@@ -41,10 +44,10 @@ function BgOrganism(traits)
 		c.MIN[c.ROTATION] = Math.PI;
 
 		c.CHANGE_RATE = new Array(c.NUM_TRAITS);
-		c.CHANGE_RATE[c.SIZE] = 4;
+		c.CHANGE_RATE[c.SIZE] = 5.5;
 		c.CHANGE_RATE[c.COLOR] = 20;
-		c.CHANGE_RATE[c.XSPEED] = 2;
-		c.CHANGE_RATE[c.YSPEED] = 2;
+		c.CHANGE_RATE[c.XSPEED] = 3;
+		c.CHANGE_RATE[c.YSPEED] = 3;
 		c.CHANGE_RATE[c.ROTATION] = .08;
 
 		c.MUTATION_RATE = new Array(c.NUM_TRAITS);
@@ -53,19 +56,6 @@ function BgOrganism(traits)
 		c.MUTATION_RATE[c.XSPEED] = 1/1;
 		c.MUTATION_RATE[c.YSPEED] = 1/1;
 		c.MUTATION_RATE[c.ROTATION] = 1/1;
-
-		c.INITIAL_VALUE = new Array(c.NUM_TRAITS);
-		c.INITIAL_VALUE[c.SIZE] = 25;
-		c.INITIAL_VALUE[c.COLOR] = 127.5;
-		c.INITIAL_VALUE[c.XSPEED] = 0;
-		c.INITIAL_VALUE[c.YSPEED] = 0;
-		c.INITIAL_VALUE[c.ROTATION] = 2*Math.PI;
-	}
-
-	if (typeof(traits) === 'undefined') {
-		traits = [];
-		for (var k=0; k<c.NUM_TRAITS; k++)
-			traits[k] = c.INITIAL_VALUE[k];
 	}
 
 	this.mutate = function()

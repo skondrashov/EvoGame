@@ -11,7 +11,7 @@ function TitleMode(gs)
 		gs.unloadMode('load');
 		gs.setLayout(GameState.layouts.titleMode.titleMenu);
 		gs.setScreen(mainScreen);
-		music.play();
+	//	music.play();
 	};
 
 	function mainScreen()

@@ -8,7 +8,7 @@
 	// it is also important to note that if the last element of 'regions' is not the length of a, then the remaining elements of a will be considered as a single region
 	// eg if a == [0,1,2,3,4,5], then regions == [2,5] will draw an identical graph to regions == [2]
 // label is a label that is drawn on the graph
-function drawGraph(a, c, label, regions, mark)
+function drawGraph(a, c, label, regions)
 {
 	c = document.getElementById(c).getContext("2d");
 	var k;	// iterator variable for use throughout the function
@@ -105,19 +105,12 @@ function drawGraph(a, c, label, regions, mark)
 	// this is the path method, connecting the points of the graph with straight lines (great for canvasses larger than arrays)
 	c.lineWidth=0;
 	c.beginPath();
-	c.moveTo(ORIGIN[0],(-1)*(0|(PIXEL_HEIGHT*(a[0]-MIN_VALUE)))+ORIGIN[1]);
+	c.moveTo(ORIGIN[0],(-1)*Math.floor(PIXEL_HEIGHT*(a[0]-MIN_VALUE))+ORIGIN[1]);
 	for (k=1; k<ARRAY_WIDTH; k++)
 	{
 		var value = a[k];
-		c.lineTo(0|(k*PIXEL_WIDTH)+ORIGIN[0],(-1)*(0|(PIXEL_HEIGHT*(value-MIN_VALUE)))+ORIGIN[1]);
+		c.lineTo(Math.floor(k*PIXEL_WIDTH)+ORIGIN[0],(-1)*Math.floor(PIXEL_HEIGHT*(value-MIN_VALUE))+ORIGIN[1]);
 	}
 	c.stroke();
-	c.strokeStyle='#FF0000';
-	if (mark) {
-		c.beginPath();
-		c.moveTo(0|(mark*PIXEL_WIDTH)+ORIGIN[0],5+c.canvas.height-BMARGIN);
-		c.lineTo(0|(mark*PIXEL_WIDTH)+ORIGIN[0],TMARGIN-5);
-		c.stroke();
-	}
 	delete a;	// delete the copied array (not the original array passed into the function)
 }
