@@ -153,6 +153,19 @@ function GameState(width, height, FRAME_RATE) {
 		modes[modeName].init();
 	};
 
+	Audio.prototype.stop = function() {
+		this.pause();
+		this.currentTime = 0;
+	};
+
+	Audio.prototype.playSound = Audio.prototype.play;
+
+	Audio.prototype.play = function() {
+		if (this.currentTime)
+			this.currentTime = 0;
+		this.playSound();
+	};
+
 	gs.drawImage = function(img, x, y, flip, rotation, scaling) {
 		if (!flip)
 			flip = false;
