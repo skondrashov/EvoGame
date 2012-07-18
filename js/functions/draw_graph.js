@@ -112,5 +112,4 @@ function drawGraph(a, c, label, regions) {
 		c.lineTo(Math.floor(k*PIXEL_WIDTH)+ORIGIN[0],(-1)*Math.floor(PIXEL_HEIGHT*(value-MIN_VALUE))+ORIGIN[1]);
 	}
 	c.stroke();
-	delete a;	// delete the copied array (not the original array passed into the function)
 }

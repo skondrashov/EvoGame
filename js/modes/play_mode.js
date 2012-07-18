@@ -6,7 +6,7 @@ function PlayMode(MAX_BG_ORGS,MAX_SCREEN_ORGS,gs) {
 	var SCORE_PER_FRAME = 11;
 
 	var music = gs.getSong('music.mp3');
-	var bgImg = gs.getImage('background.jpg');;
+	var bgImg = gs.getImage('background.jpg');
 	var SHOW_STATISTICS = false;
 	// ORGANISMS
 	var bgOrgs = new BgPopulation(MAX_BG_ORGS);
@@ -49,6 +49,7 @@ function PlayMode(MAX_BG_ORGS,MAX_SCREEN_ORGS,gs) {
 		if (SHOW_STATISTICS)
 			showStats();
 		fpsCounter = new FpsCounter(60);
+		gs.setLayout('play');
 	//	music.play();
 	}
 
@@ -77,8 +78,7 @@ function PlayMode(MAX_BG_ORGS,MAX_SCREEN_ORGS,gs) {
 		gs.clearCollisionMap();
 
 		// PROCESS
-		bgImg.draw(0,0,false,0,gs.getHeight()/bgImg.height);
-
+		gs.drawImage(bgImg,0,0,false,0,gs.getHeight()/bgImg.height);
 		for (var i=0; i<actOrgs.length; i++) {
 			var o = actOrgs[i];
 			if (o.isAlive()) {
@@ -99,13 +99,11 @@ function PlayMode(MAX_BG_ORGS,MAX_SCREEN_ORGS,gs) {
 		score+=SCORE_PER_FRAME;
 		if (health <= 0)
 			gs.setScreen(loseScreen);
-
-		document.getElementById('score').innerHTML='';
-		writeScore('<br/>Health: ' + health);
-		writeScore('Score: ' + score);
-			
-		fpsCounter.show(frameCount);
+		
 		frameCount++;
+		gs.drawLayoutElement('health_text', 'Health: ' + health);
+		gs.drawLayoutElement('score_text', 'Score: ' + score);
+		gs.drawLayoutElement('fps', 'FPS: ' + fpsCounter.show(frameCount));
 	}
 
 	function loseScreen() {

@@ -1,7 +1,7 @@
 function main() {
 	"use strict";
 //	try {
-		var gs = new GameState(600, 400, 60);
+		var gs = new GameState(800, 600, 60);
 		if (gs.init('game_container')) {
 			gs.loadMode(new LoadingMode(
 				[
@@ -10,8 +10,8 @@ function main() {
 						gs.style.borderColor = "#E0F080";
 						gs.style.cursor = "crosshair";
 						gs.loadMode(new PlayMode(
-							20,		// The maximum size of the background population
-							10,		// The number of organisms placed on the screen during each level
+							40,		// The maximum size of the background population
+							20,		// The number of organisms placed on the screen during each level
 							gs
 						), 'play');
 						gs.loadMode(new TitleMode(gs), 'title');
