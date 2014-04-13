@@ -8,9 +8,10 @@
 	// it is also important to note that if the last element of 'regions' is not the length of a, then the remaining elements of a will be considered as a single region
 	// eg if a == [0,1,2,3,4,5], then regions == [2,5] will draw an identical graph to regions == [2]
 // label is a label that is drawn on the graph
-function drawGraph(a, c, label, regions) {
-	"use strict";
+function drawGraph(a, c, label, regions, mark)
+{
 	c = document.getElementById(c).getContext("2d");
+	c.lineWidth=1;
 	var k;	// iterator variable for use throughout the function
 	a = a.slice(0);		// copy the received data into a new array to avoid changing the data
 	var LMARGIN, TMARGIN, RMARGIN, BMARGIN; // left top right bottom margins
@@ -33,7 +34,7 @@ function drawGraph(a, c, label, regions) {
 	var ARRAY_WIDTH = a.length;
 	if (regions)
 	{
-		var processRegion = function(regBegin, regEnd)
+		function processRegion(regBegin, regEnd)
 		{
 			var regLength = 0;
 			var regTotal = 0;
@@ -45,7 +46,7 @@ function drawGraph(a, c, label, regions) {
 			var regAvg = regTotal/regLength;
 			for (k=regBegin; k<regEnd; k++)
 				a[k] = regAvg;
-		};
+		}
 		processRegion(0,regions[0]);
 		for (k=1; k<regions.length; k++)
 			processRegion(regions[k-1],regions[k]);
@@ -103,13 +104,22 @@ function drawGraph(a, c, label, regions) {
 	// this is the pixel remainder method; pixels are crunched together in regular intervals, resulting in crisp display but with some loss of detail.
 	
 	// this is the path method, connecting the points of the graph with straight lines (great for canvasses larger than arrays)
-	c.lineWidth=0;
+	
 	c.beginPath();
-	c.moveTo(ORIGIN[0],(-1)*Math.floor(PIXEL_HEIGHT*(a[0]-MIN_VALUE))+ORIGIN[1]);
+	c.moveTo(ORIGIN[0],(-1)*(0|(PIXEL_HEIGHT*(a[0]-MIN_VALUE)))+ORIGIN[1]);
 	for (k=1; k<ARRAY_WIDTH; k++)
 	{
 		var value = a[k];
-		c.lineTo(Math.floor(k*PIXEL_WIDTH)+ORIGIN[0],(-1)*Math.floor(PIXEL_HEIGHT*(value-MIN_VALUE))+ORIGIN[1]);
+		c.lineTo(0|(k*PIXEL_WIDTH)+ORIGIN[0],(-1)*(0|(PIXEL_HEIGHT*(value-MIN_VALUE)))+ORIGIN[1]);
 	}
 	c.stroke();
+	c.strokeStyle='#FF0000';
+	if (mark) {
+		c.lineWidth=3;
+		c.beginPath();
+		c.moveTo(0|(mark*PIXEL_WIDTH)+ORIGIN[0],5+c.canvas.height-BMARGIN);
+		c.lineTo(0|(mark*PIXEL_WIDTH)+ORIGIN[0],TMARGIN-5);
+		c.stroke();
+	}
+	delete a;	// delete the copied array (not the original array passed into the function)
 }

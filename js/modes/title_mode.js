@@ -1,21 +1,25 @@
-function TitleMode(gs) {
-	"use strict";
+function TitleMode(gs)
+{
 	var menuSound = gs.getSound('menu.wav');
-	var music = gs.getSong('title.ogg');
+	var button = function() {
+		
+	};
 
-	this.init = function() {
+	this.init = function()
+	{
 		gs.unloadMode('load');
-		gs.setLayout('menu');
+		gs.setLayout(GameState.layouts.titleMode.titleMenu);
 		gs.setScreen(mainScreen);
 	//	music.play();
 	};
 
-	function mainScreen() {
+	function mainScreen()
+	{
 		if (gs.mousePressed) {
-			switch (gs.getCollision(gs.mousePosition[0], gs.mousePosition[1])) {
+			switch (gs.getCollision(gs.mousePosition[0],gs.mousePosition[1])) {
 			case 'play':
+				menuSound.stop();
 				menuSound.play();
-				//music.stop();
 				gs.loadMode(new LoadingMode([
 						[function() {
 							gs.clearLayout();
@@ -24,30 +28,29 @@ function TitleMode(gs) {
 						},'Starting Game...']
 					],gs),'load');
 				gs.setMode('load');
-				return;
+				break;
 			case 'options':
+				menuSound.stop();
 				menuSound.play();
-				gs.setLayout('options');
+				gs.setLayout(GameState.layouts.titleMode.titleOptions);
 				gs.setScreen(optionsScreen);
-				return;
+				break;
 			case 'help':
+				menuSound.stop();
 				menuSound.play();
-				gs.setLayout('help');
-				gs.setScreen(helpScreen);
-				return;
-			case 'about':
-				menuSound.play();
-				gs.setLayout('about');
+				gs.setLayout(GameState.layouts.titleMode.titleHelp);
 				gs.setScreen(aboutScreen);
-				return;
+				break;
+			case 'about':
+				menuSound.stop();
+				menuSound.play();
+				gs.setLayout(GameState.layouts.titleMode.titleAbout);
+				gs.setScreen(aboutScreen);
+				break;
 			}
 		}
 		gs.clearCollisionMap();
-		gs.drawLayoutElement('title_text');
-		gs.drawLayoutElement('play_button');
-		gs.drawLayoutElement('options_button');
-		gs.drawLayoutElement('help_button');
-		gs.drawLayoutElement('about_button');
+		gs.drawLayout();
 	}
 
 	function optionsScreen()
@@ -55,27 +58,27 @@ function TitleMode(gs) {
 		if (gs.mousePressed) {
 			switch (gs.getCollision(gs.mousePosition[0],gs.mousePosition[1])) {
 			case 'fullscreen':
+				menuSound.stop();
 				menuSound.play();
 				gs.style.border='none';
 				gs.setResolution(gs.getWidth(),gs.getHeight(),true);
 				break;
 			case 'actual':
+				menuSound.stop();
 				menuSound.play();
 				gs.style.border='ridge';
-				gs.style.borderColor="#E0F080";
 				gs.setResolution(gs.getWidth(),gs.getHeight());
 				break;
 			case 'back':
+				menuSound.stop();
 				menuSound.play();
-				gs.setLayout('menu');
+				gs.setLayout(GameState.layouts.titleMode.titleMenu);
 				gs.setScreen(mainScreen);
-				return;
+				break;
 			}
 		}
 		gs.clearCollisionMap();
-		gs.drawLayoutElement('fullscreen_button');
-		gs.drawLayoutElement('actual_button');
-		gs.drawLayoutElement('back_button');
+		gs.drawLayout();
 	}
 	
 	function helpScreen()
@@ -83,15 +86,15 @@ function TitleMode(gs) {
 		if (gs.mousePressed) {
 			switch (gs.getCollision(gs.mousePosition[0],gs.mousePosition[1])) {
 			case 'back':
+				menuSound.stop();
 				menuSound.play();
-				gs.setLayout('menu');
+				gs.setLayout(GameState.layouts.titleMode.titleMenu);
 				gs.setScreen(mainScreen);
-				return;
+				break;
 			}
 		}
 		gs.clearCollisionMap();
-		gs.drawLayoutElement('help_text');
-		gs.drawLayoutElement('back_button');
+		gs.drawLayout();
 	}
 	
 	function aboutScreen()
@@ -99,14 +102,19 @@ function TitleMode(gs) {
 		if (gs.mousePressed) {
 			switch (gs.getCollision(gs.mousePosition[0],gs.mousePosition[1])) {
 			case 'back':
+				menuSound.stop();
 				menuSound.play();
-				gs.setLayout('menu');
+				gs.setLayout(GameState.layouts.titleMode.titleMenu);
 				gs.setScreen(mainScreen);
-				return;
+				break;
 			}
 		}
 		gs.clearCollisionMap();
-		gs.drawLayoutElement('about_text');
-		gs.drawLayoutElement('back_button');
+		gs.drawLayout();
 	}
+
+	this.destroy = function()
+	{
+		menuSound.destroy();
+	};
 }

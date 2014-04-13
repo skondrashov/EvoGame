@@ -1,33 +1,37 @@
-function main() {
-	"use strict";
-//	try {
-		var gs = new GameState(800, 600, 60);
-		if (gs.init('game_container')) {
+/*try
+{*/
+	function main() {
+		var gs = new GameState(800,350,60);
+		if (gs.init('game_container'))
+		{
 			gs.loadMode(new LoadingMode(
 				[
 					[function() {
-						gs.style.border = "ridge";
-						gs.style.borderColor = "#E0F080";
-						gs.style.cursor = "crosshair";
+						gs.style.border="ridge";
+						gs.style.borderColor="#E0F080";
+						gs.style.cursor="crosshair";
 						gs.loadMode(new PlayMode(
-							40,		// The maximum size of the background population
-							20,		// The number of organisms placed on the screen during each level
-							gs
-						), 'play');
-						gs.loadMode(new TitleMode(gs), 'title');
+						20,		// The size of the background population
+						10,		// The number of organisms placed on the screen during each level
+						gs),'play');
+						gs.loadMode(new TitleMode(gs),'title');
 						gs.setMode('title');
-					}, 'Loading modes...']
-				],
-				gs
-			), 'loading');
+					},'Loading modes...']
+				],gs),'loading');
 			gs.setMode('loading');
 			gs.start();
-		} else {
+		} else
+		{
 			//this line contains the error message for HTML5 incompatibility, and also removes the tag from the main page which contains the javascript incompatibility error.
-			document.getElementById('game_container').innerHTML = 'It looks like your browser doesn\'t support HTML5. Please upgrade to a modern browser, such as the latest versions of <a href="https://www.google.com/chrome">Google Chrome</a> or <a href="http://www.mozilla.org/en-US/firefox/new/">Mozilla Firefox</a>.';
+			container.innerHTML='It looks like your browser doesn\'t support HTML5. Please upgrade to a modern browser, such as the latest versions of <a href="https://www.google.com/chrome">Google Chrome</a> or <a href="http://www.mozilla.org/en-US/firefox/new/">Mozilla Firefox</a>.';
 		}
-//	}
-//	catch (e) {
-//		document.getElementById('game_container').innerHTML = 'Something went wrong in the game that shouldn\'t have. Please upgrade to a modern browser, such as the latest versions of <a href="https://www.google.com/chrome">Google Chrome</a> or <a href="http://www.mozilla.org/en-US/firefox/new/">Mozilla Firefox</a>. If you are already using a modern browser, then contact the developers to let them know what went wrong. The error that was generated is: <br/>' + e.message;
-//	}
-}
+		for (var k=0; k<3; k++) {
+			document.getElementById('graph'+k).width=''+(window.innerWidth/3);
+			document.getElementById('graph'+k).height="100";
+			drawGraph([0],'graph'+k);
+		}
+	}
+/*} catch (e)
+{
+	document.getElementById('game_container').innerHTML='Something went wrong in the game that shouldn\'t have. Please upgrade to a modern browser, such as the latest versions of <a href="https://www.google.com/chrome">Google Chrome</a> or <a href="http://www.mozilla.org/en-US/firefox/new/">Mozilla Firefox</a>. If you are already using a modern browser, then contact the developers to let them know what went wrong. The error that was generated is: <br/>'+ e.message;
+}*/

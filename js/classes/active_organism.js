@@ -1,19 +1,20 @@
-function ActiveOrganism(gs, size, xSpeed, ySpeed, rotation, x, y, id) {
-	"use strict";
+function ActiveOrganism(gs, size, speed, rotation, id) {
 	var i,j; // iterator variables for use throughout the object
 	var age = 0;
 	var dead = false;
 	var direction = 0;
 
-	// var size
-	// var x, y
+	// var size, speed, rotation
+	var direction = 0|(Math.random()*Math.PI*2);
+	var xSpeed = speed*Math.cos(direction), ySpeed = speed*Math.sin(direction);
+	var x = 0|(Math.random()*gs.getWidth()), y = 0|(Math.random()*gs.getHeight());
 	var roundX = 0, roundY = 0;
 
 	// static variables
 	var c = ActiveOrganism;		// c is a reference to the class to simplify further code
 	if (typeof(c.count) === 'undefined') {			//checks if one of the static variables (arbitrary) isn't yet defined... if it is, no need to remake static variables
 		c.sprite = gs.getSprite('organism');
-		c.deathSound = gs.getSound('organism_death.wav');
+		//c.deathSound = gs.getSound('organism_death.wav');
 		c.sprite.setAnim('idle');
 		// 'roots' gives an array of arrays of numbers to be used for drawing circles, so that redundant calculations don't have to be made in realtime.
 		// roots[r][k] gives you the pixel thickness of a circle of radius r, k pixels away from the center
@@ -57,36 +58,78 @@ function ActiveOrganism(gs, size, xSpeed, ySpeed, rotation, x, y, id) {
 
 		roundX = 0|x;
 		roundY = 0|y;
-		for (var i=0; i<size; i++) {
+		for (var i=0; i<size; i++) // this code only works as long as the entirety of each organism is on the canvas. edit it later to clip the for loops at the edge of the canvas once the dudes start moving
+		{
 			var yBound = ActiveOrganism.roots[0|size][i];
-			for (var j=roundY - yBound; j<roundY + yBound; j++) {
+			for (var j=roundY - yBound; j<roundY + yBound; j++)
+			{
 				gs.setCollision(roundX+i,j,orgNum);
 				gs.setCollision(roundX-i-1,j,orgNum);
 			}
 		}
-
+		
 		draw();
 	};
 
-	function draw() {
+	function draw()
+	{
 		c.sprite.draw(roundX-size,roundY-size,false,direction,size/142);
 	};
 
-	this.kill = function() {
-		c.deathSound.currentTime = 0;
-		c.deathSound.play();
+	this.kill = function()
+	{
+	//	c.deathSound.currentTime = 0;
+	//	c.deathSound.play();
 		this.dead = true;
 	};
 
-	this.isAlive = function() {
+	this.isAlive = function()
+	{
 		return !(this.dead);
 	};
 
-	this.getID = function() {
+	this.getColor = function()
+	{
+		return b;
+	};
+
+	this.getSize = function()
+	{
+		return size;
+	};
+
+	this.getXSpeed = function()
+	{
+		return xSpeed;
+	};
+
+	this.getRotation = function()
+	{
+		return rotation;
+	};
+
+	this.getID = function()
+	{
 		return id;
 	};
 
-	this.getAge = function() {
+	this.getAge = function()
+	{
 		return age;
+	};
+
+	this.destroy = function()
+	{
+		c.count--;
+		if (c.count === 0)
+		{
+			debug('maybe?');
+			c.deathSound.destroy();
+			c.sprite.destroy();
+			for (i=1; i<c.roots.length; i++)
+				delete c.roots[i];
+			delete c.roots;
+		}
+		delete this;
 	};
 }

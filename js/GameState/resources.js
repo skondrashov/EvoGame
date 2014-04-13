@@ -1,4 +1,3 @@
-"use strict";
 GameState.prototype.getImage = function(imageName) {
 	var img;
 	img = new Image();
@@ -31,9 +30,9 @@ GameState.prototype.getSong = function(songName) {
 };
 
 GameState.prototype.getSprite = function(spriteName) {
-	var anims = {},
-		info = GameState.spriteInfo[spriteName],
-		img, imgs, anim, k;
+	var anims = {};
+	var info = GameState.spriteInfo[spriteName];
+	var img, imgs;
 	for (anim in info) {
 		imgs = new Array();
 		for (k=0; k<info[anim].images; k++) {
@@ -44,7 +43,7 @@ GameState.prototype.getSprite = function(spriteName) {
 			imgs.push(img);
 			LoadingMode.waitFor(img);
 		}
-		anims[anim] = new this.Animation(imgs, info[anim]);
+		anims[anim] = new GameState.Animation(imgs, info[anim]);
 	}
-	return new this.Sprite(anims);
+	return new GameState.Sprite(anims);
 };
