@@ -80,16 +80,18 @@ function PlayMode(MAX_BG_ORGS,MAX_SCREEN_ORGS,gs) {
 		
 		gs.ctx.font="50px sans-serif";
 		gs.ctx.fillStyle="rgb(200,60,60)";
-		gs.ctx.fillText("Game Over",gs.getWidth()/2,gs.getHeight()/2-100);
+		gs.ctx.fillText("Game Over",gs.getWidth()/2,gs.getHeight()/2-120);
 
 		gs.ctx.fillStyle="rgb(255,255,255)";
 		gs.ctx.font="30px sans-serif";
-		gs.ctx.fillText("Average Stats:",gs.getWidth()/2,gs.getHeight()/2-40);
+		gs.ctx.fillText("Average Stats:",gs.getWidth()/2,gs.getHeight()/2-70);
 		gs.ctx.font="20px sans-serif";
+		gs.ctx.textAlign='center';
+		gs.ctx.fillText("Initial   Final",gs.getWidth()/2-0,gs.getHeight()/2-35);
 		gs.ctx.textAlign='right';
-		gs.ctx.fillText("Size: ",gs.getWidth()/2-10,gs.getHeight()/2+0);
-		gs.ctx.fillText("Speed: ",gs.getWidth()/2-10,gs.getHeight()/2+40);
-		gs.ctx.fillText("Rotation: ",gs.getWidth()/2-10,gs.getHeight()/2+80);
+		gs.ctx.fillText("Size:  50.0",gs.getWidth()/2-10,gs.getHeight()/2+0);
+		gs.ctx.fillText("Speed:  0.00",gs.getWidth()/2-10,gs.getHeight()/2+40);
+		gs.ctx.fillText("Rotation:  0.00",gs.getWidth()/2-10,gs.getHeight()/2+80);
 		gs.ctx.textAlign='left';
 		var mean;
 		for (var i=0; i<3; i++)
@@ -101,7 +103,7 @@ function PlayMode(MAX_BG_ORGS,MAX_SCREEN_ORGS,gs) {
 				if (o.isAlive())
 					mean += Math.abs(o.getTrait(i)/MAX_BG_ORGS);
 			}
-			gs.ctx.fillText(mean,gs.getWidth()/2+10,gs.getHeight()/2+i*40);
+			gs.ctx.fillText(mean.toFixed(3),gs.getWidth()/2+10,gs.getHeight()/2+i*40);
 		}
 
 		gs.ctx.textAlign='center';

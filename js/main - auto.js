@@ -11,7 +11,7 @@
 						gs.style.borderColor="#E0F080";
 						gs.style.cursor="crosshair";
 						gs.loadMode(new PlayMode(
-						300,		// The size of the background population
+						500,		// The size of the background population
 						10,		// The number of organisms placed on the screen during each level
 						gs),'play');
 						gs.loadMode(new TitleMode(gs),'title');
